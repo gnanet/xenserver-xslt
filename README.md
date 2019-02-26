@@ -35,4 +35,4 @@ The XSLT template enables the following information to be extracted from the Xen
 3. Open the xapi-db.xml file and place the following at the very top:
 `<?xml-stylesheet type="text/xsl" href="xenserver.xsl"?>`
 
-4. Open the **xapi-db.xml** file in a web browser that can apply XSLT templates to an XML document such as Firefox or Internet Explorer (does not work in Chrome).
+4. Open the **xapi-db.xml** file in a web browser that can apply XSLT templates to an XML document such as Firefox or Internet Explorer (as of now 2019.02.26 it does work in Chrome).

@@ -668,7 +668,8 @@
 
         <xsl:variable name="quot">'</xsl:variable>
         <xsl:variable name="quot_space_quot">' '</xsl:variable>
-        <xsl:variable name="quot_cb">') </xsl:variable>
+        <xsl:variable name="quot_cb">')</xsl:variable>
+        <xsl:variable name="quot_cb_space">') </xsl:variable>
 
         <xsl:variable name="var_begin" select="substring($input_text, 3)" />
         <xsl:variable name="var_end"   select="substring-before($var_begin, $quot)" />
@@ -676,7 +677,7 @@
         <xsl:variable name="val_begin" select="substring-after($var_begin, $quot_space_quot)" />
         <xsl:variable name="val_end" select="substring-before($val_begin, $quot_cb)" />
 
-        <xsl:variable name="str_rem" select="substring-after($input_text, $quot_cb)" />
+        <xsl:variable name="str_rem" select="substring-after($input_text, $quot_cb_space)" />
         
         <xsl:if test="string-length($var_end) > 0">
            <b><xsl:value-of select="$var_end"/>: </b><xsl:value-of select="$val_end"/><br/>
