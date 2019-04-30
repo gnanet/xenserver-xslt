@@ -6,13 +6,15 @@
 
    <!--
    Proof of concept XSLT template for XenServer.
-   Version: 0.4
+   Version: 0.4.2
    Author: Jonathan Thorpe <jt@jonthorpe.net>
 
       Usage: Add the line following line to your XAPI database XML file and open the XML file in any modern browser.
       <?xml-stylesheet type="text/xsl" href="xenserver.xsl"?>
 
       Changelog:
+      0.4.2: Add new column: virtual_size in GB, of VDI to list of the VBDs per guest VM
+      0.4.1: Fix missing value display of single item arrays, and missing last elements of arrays in template:format_serial_array
       0.4: Minor update - show host on which VM is running.
       0.3: VBD display.
       0.2: Changes to CSS, additional content, including VM summary.
@@ -524,12 +526,14 @@
                         <th>Currently Attached</th>
                         <th>Bootable</th>
                         <th>Location (1)</th>
+                        <th>Virtual Size</th>
                      </tr>
                      <xsl:for-each select="/database/table[@name='VBD']/row[@VM=$vm_ref]">
                         <xsl:sort select="@userdevice"/>
                         <xsl:variable name="vdi_ref" select="@VDI"/>
                         <xsl:variable name="sr_ref" select="/database/table[@name='VDI']/row[@ref=$vdi_ref]/@SR" />
                         <xsl:variable name="vdi_location" select="/database/table[@name='VDI']/row[@ref=$vdi_ref]/@location" />
+                        <xsl:variable name="vdi_virt_size" select="/database/table[@name='VDI']/row[@ref=$vdi_ref]/@virtual_size div 1073741824" />
                         <xsl:variable name="sr_name_label" select="/database/table[@name='SR']/row[@ref=$sr_ref]/@name__label" />
                         <xsl:variable name="sr_uuid" select="/database/table[@name='SR']/row[@ref=$sr_ref]/@uuid" />
                         <tr>
@@ -546,6 +550,12 @@
                            <td><xsl:value-of select="@currently_attached"/></td>
                            <td><xsl:value-of select="@bootable"/></td>
                            <td><xsl:value-of select="$vdi_location"/></td>
+                           <td>
+                           <xsl:choose>
+                              <xsl:when test="@empty='true'"></xsl:when>
+                              <xsl:otherwise><xsl:value-of select="$vdi_virt_size"/>GB</xsl:otherwise>
+                           </xsl:choose>
+                           </td>
                         </tr>
                      </xsl:for-each>
                   </table>
